@@ -1,0 +1,70 @@
+{
+    "PARA": {
+      "p_row": 1,
+      "p_col": 1
+    },
+    "MESH": {
+      "read_mesh": false,
+      "mesh_type": 1,
+      "stretch_func": 0,
+      "stretch_ratio": 3.0,
+      "nx": 128,
+      "ny": 128,
+      "nz": 128,
+      "lx": 12.566370614359172,
+      "ly": 6.283185307179586,
+      "lz": 2.0
+    },
+    "TIME": {
+      "nt_end": 1000,
+      "dt": 1.0e-3,
+      "nt_check": 100,
+      "cfl_limit": 1.0,
+      "div_limit": 1.0e-9
+    },
+    "RESTART": {
+      "is_restart": false,
+      "fn_prefix_input_inst": "save",
+      "fn_prefix_input_stat": "save"
+    },
+    "PHYSICAL": {
+      "re": 2800,
+      "u_ref": 1.0,
+      "l_ref": 1.0,
+      "initial_field": "poi",
+      "u0": 1.0,
+      "init_with_noise": true,
+      "noise_intensity": 0.5,
+      "smooth_wall_visc": false,
+      "u_crf": 0.0
+    },
+    "FORCE": {
+      "is_forced": [true, false, false],
+      "vel_force": [1.0, 0.0, 0.0]
+    },
+    "STATISTICS": {
+      "nt_init_stat": 100000,
+      "sample_interval": 10,
+      "stat_which_var": [true, true, true, true, true, true, true, true, true, true, true]
+    },
+    "OUTPUT": {
+      "nt_out_scrn": 100,
+      "nt_out_inst": 100000,
+      "nt_out_stat": 100000,
+      "nt_out_save": 100000,
+      "overwrite_save": false,
+      "auto_cleanup": true,
+      "num_retained": 0,
+      "nt_out_moni": 100
+    },
+    "MONITOR": {
+      "out_forcing": false,
+      "out_probe_point": false,
+      "probe_ijk": [64, 64, 64],
+      "out_skf_z": [true, true],
+      "out_region": false,
+      "nt_out_region": 100,
+      "region_ijk": [60, 68, 60, 68, 1, 128]
+    }
+  }
+  

@@ -1,0 +1,47 @@
+include(CMakeDependentOption)
+option(USE_GPTL "Option for using GPTL" OFF)
+message(STATUS "Build PowerLLEL using GPTL: " ${USE_GPTL})
+option(USE_PDD "Option for using PDD(Parallel Diagonal Dominant) Algorithm" OFF)
+message(STATUS "Build PowerLLEL using PDD(Parallel Diagonal Dominant) Algorithm: " ${USE_PDD})
+
+file(GLOB src *.cc *.hh)
+add_executable(PowerLLEL ${src})
+install(TARGETS PowerLLEL)
+set_target_properties(PowerLLEL PROPERTIES OUTPUT_NAME "PowerLLEL${PowerLLEL_SUFFIX}")
+if(CMAKE_CXX_COMPILER_ID MATCHES IntelLLVM)
+    target_compile_options(PowerLLEL PRIVATE -fp-model=precise)
+endif()
+
+find_package(PkgConfig REQUIRED)
+pkg_search_module(FMT REQUIRED fmt)
+target_link_directories(PowerLLEL PRIVATE ${FMT_LIBRARY_DIRS})
+target_link_libraries(PowerLLEL ${FMT_LIBRARIES})
+target_include_directories(PowerLLEL PRIVATE ${FMT_INCLUDE_DIRS})
+
+find_package(MPI REQUIRED COMPONENTS C)
+target_link_libraries(PowerLLEL ${MPI_C_LIBRARIES})
+target_include_directories(PowerLLEL PRIVATE ${MPI_C_INCLUDE_DIRS})
+
+pkg_search_module(RapidJSON REQUIRED RapidJSON)
+target_include_directories(PowerLLEL PRIVATE ${RapidJSON_INCLUDE_DIRS})
+
+find_package(HDF5 REQUIRED)
+target_include_directories(PowerLLEL PRIVATE ${HDF5_C_INCLUDE_DIRS})
+target_link_libraries(PowerLLEL ${HDF5_C_LIBRARIES})
+
+if(USE_GPTL)
+    pkg_search_module(GPTL REQUIRED gptl)
+    target_include_directories(PowerLLEL PRIVATE ${GPTL_INCLUDE_DIRS})
+    target_link_directories(PowerLLEL PRIVATE ${GPTL_LIBRARY_DIRS})
+    target_link_libraries(PowerLLEL ${GPTL_LIBRARIES})
+    target_compile_definitions(PowerLLEL PRIVATE -DGPTL)
+endif()
+
+if(USE_PDD)
+    target_compile_definitions(PowerLLEL PRIVATE -D_PDD)
+endif()
+
+find_package(MKL REQUIRED)
+target_compile_definitions(PowerLLEL PRIVATE -DMKL_ILP64)
+target_include_directories(PowerLLEL PRIVATE ${MKL_INCLUDE})
+target_link_libraries(PowerLLEL mkl_sycl mkl_intel_lp64 mkl_tbb_thread mkl_core sycl OpenCL tbb pthread m dl)

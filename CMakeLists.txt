@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.21.0)
+project(PowerLLEL)
+set(CMAKE_CXX_STANDARD 17)
+include(CPack)
+include(CTest)
+add_subdirectory(src)
