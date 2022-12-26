@@ -1,6 +1,6 @@
 # A SYCL port of PowerLLEL_Channel
 
-This is a port of PowerLLEL_Channel from MPI+OpenMP to MPI+SYCL. To do this, we
+This is a port of [PowerLLEL_Channel](https://github.com/xiejb6/PowerLLEL_Channel) from MPI+OpenMP to MPI+SYCL. To do this, we
 - rewrite almost all of the original Fortran code in C++ 17;
 - replace OpenMP directives with SYCL;
 - replace FFTW with oneMKL (DPC++ interface).
